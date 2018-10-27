@@ -5,7 +5,6 @@
   file:
     state: absent
     path: ~/.bashrc
-
 - name: ensure new bash_profile exists
   become: yes
   become_user: "{{ user }}"
@@ -16,7 +15,6 @@
     group: "{{ user }}"
     owner: "{{ user }}"
     mode: 0644
-
 - name: creates user Development directory
   become: yes
   become_user: "{{ user }}"
@@ -26,7 +24,6 @@
     owner: "{{ user }}"
     group: "{{ user }}"
     mode: 0700
-
 - name: download dotfiles project to ~/Development/
   become: yes
   become_user: "{{ user }}"
