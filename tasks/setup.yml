@@ -1,0 +1,28 @@
+---
+- name: ensure ssh key exists
+  user:
+    name: "{{ user }}"
+    generate_ssh_key: yes
+    ssh_key_file: ~/.ssh/id_rsa
+
+- name: Set authorized key took from local pubfile
+  authorized_key:
+    user: "{{ user }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+- name: Allow "{{ user }}" group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^%{{ user }}"
+    line: "%{{ user }} ALL=(ALL) NOPASSWD: ALL"
+    validate: 'visudo -cf %s'
+
+- name: add user to groups
+  user:
+    name: "{{ user }}"
+    groups:
+      - root
+    append: yes
+

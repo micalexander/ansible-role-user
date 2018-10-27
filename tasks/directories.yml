@@ -1,0 +1,38 @@
+---
+- name: ensure an old .bashrc file does not exist
+  become: yes
+  become_user: "{{ user }}"
+  file:
+    state: absent
+    path: ~/.bashrc
+
+- name: ensure new bash_profile exists
+  become: yes
+  become_user: "{{ user }}"
+  copy:
+    content: ". $HOME/Development/.bash_profile"
+    dest: ~/.bash_profile
+    force: yes
+    group: "{{ user }}"
+    owner: "{{ user }}"
+    mode: 0644
+
+- name: creates user Development directory
+  become: yes
+  become_user: "{{ user }}"
+  file:
+    path: ~/Development
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0700
+
+- name: download dotfiles project to ~/Development/
+  become: yes
+  become_user: "{{ user }}"
+  git:
+    repo: "{{ dotfiles }}"
+    dest: ~/Development
+
+
+

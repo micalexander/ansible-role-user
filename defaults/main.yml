@@ -1,0 +1,4 @@
+---
+# defaults file for user
+user: ubuntu
+dotfiles: https://github.com/micalexander/dotfiles.git
